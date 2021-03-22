@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Evaluation;
 use App\Entity\Recipe;
+use App\Form\EvaluationType;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,5 +92,29 @@ class RecipeController extends AbstractController
         }
 
         return $this->redirectToRoute('recipe_index');
+    }
+
+    /**
+     * @Route("/{id}/eval", name="recipe_eval", methods={"GET", "POST"})
+     */
+    public function addEval(Request $request, Recipe $recipe): Response
+    {
+        $eval = new Evaluation();
+        $eval->setDate(new \DateTime('now'));
+        $recipe->addEvaluation($eval);
+        $form = $this->createForm(EvaluationType::class, $eval);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($eval);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render('evaluation/add_eval.html.twig', [
+            'recipe' => $recipe->getName(),
+            'form_eval' => $form->createView(),]);
     }
 }
