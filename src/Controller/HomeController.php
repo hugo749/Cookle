@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Recipe;
+use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +13,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="home")
      */
-    public function index(): Response
+    public function index(RecipeRepository $recipeRepository): Response
     {
         $allrecipes = $recipeRepository->findAll();
         if ($allrecipes != null)
@@ -22,12 +24,11 @@ class HomeController extends AbstractController
         else
         {
             $recipeOfTheDay = new Recipe();
-            $recipeOfTheDay->setTitle('Vous n\'avez pas encore entré de recettes');
+            $recipeOfTheDay->setName('oups');
         }
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'reciperandom' => $recipeOfTheDay,
+            'recipe_list' => $allrecipes
         ]);
     }
-
-
 }
