@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Evaluation;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,4 +32,6 @@ class HomeController extends AbstractController
             'recipe_list' => $allrecipes
         ]);
     }
+
+
 }

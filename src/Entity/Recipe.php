@@ -6,6 +6,7 @@ use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
@@ -213,5 +214,22 @@ class Recipe
         $this->ingredient->removeElement($ingredient);
 
         return $this;
+    }
+
+    public function calcAverageEval(): float{
+        $i = 0;
+        $totalevaluation = 0;
+
+        foreach ($this->evaluation as $valeur){
+            $i++;
+            $totalevaluation += $valeur->getStar();
+        }
+        if ($i != 0){
+            return $totalevaluation = $totalevaluation/$i;}
+        else{
+            return -1;
+        }
+
+
     }
 }

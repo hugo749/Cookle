@@ -21,7 +21,9 @@
                     <div class="card mt-5" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title">{{ r.name }}</h5>
+                            <p>{{ r.calcAverageEval() }}</p>
                             <a href="{{ path('recipe_edit', { id: r.id }) }}" class="btn btn-primary">Modifer</a>
+                            <a href="{{ path('recipe_eval', { id: r.id }) }}" class="btn btn-primary">Evaluation</a>
                         </div>
                     </div>
                 </div>
